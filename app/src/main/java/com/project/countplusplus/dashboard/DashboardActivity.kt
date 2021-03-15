@@ -147,30 +147,35 @@ class DashboardActivity : AppCompatActivity() {
         var notificationChannel : NotificationChannel
         var builder : Notification.Builder
         var channelId = "com.project.countplusplus"
-        var desc = "You will receive payment from ${empList[0].sender_name} today"
-        val contentView = RemoteViews(packageName,R.layout.notification_layout)
-        contentView.setTextViewText(R.id.tv_title,"Payment Notification")
-        contentView.setTextViewText(R.id.tv_content,desc)
 
-
-        if (empList.size > 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            {
-                notificationChannel = NotificationChannel(channelId,desc,NotificationManager.IMPORTANCE_HIGH)
-                notificationManager.createNotificationChannel(notificationChannel)
-
-                builder = Notification.Builder(this,channelId)
-                        .setContent(contentView)
-                        .setSmallIcon(R.drawable.dollar)
-                        .setContentIntent(pendingIntent)
-                notificationManager.notify(1235,builder.build())
-            }
-            Log.d("notify","yes")
-        }
-        else
+        if (empList.size > 0)
         {
-            Log.d("notify","no")
+            var desc = "You will receive payment from ${empList[0].sender_name} today"
+            val contentView = RemoteViews(packageName,R.layout.notification_layout)
+            contentView.setTextViewText(R.id.tv_title,"Payment Notification")
+            contentView.setTextViewText(R.id.tv_content,desc)
+
+
+            if (empList.size > 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                {
+                    notificationChannel = NotificationChannel(channelId,desc,NotificationManager.IMPORTANCE_HIGH)
+                    notificationManager.createNotificationChannel(notificationChannel)
+
+                    builder = Notification.Builder(this,channelId)
+                            .setContent(contentView)
+                            .setSmallIcon(R.drawable.dollar)
+                            .setContentIntent(pendingIntent)
+                    notificationManager.notify(1235,builder.build())
+                }
+                Log.d("notify","yes")
+            }
+            else
+            {
+                Log.d("notify","no")
+            }
         }
+
         return empList;
     }
 }
